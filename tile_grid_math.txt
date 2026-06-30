@@ -1,0 +1,12 @@
+Tile Grid Math
+
+With 32×32 character sprites, my tiles should also be 32×32
+(matching grid keeps collision and movement clean, not mixing tile sizes).
+
+At 320×180 window, that gives me a 10×5.6 tile viewport — 
+tight, so levels need to be wider than the screen and scroll with the camera.
+
+32×32 Rustam: head ≈ 12-14px tall, torso ≈ 10px, legs ≈ 8-10px. 
+Legs get less detail investment than the head — 
+2-3 frame walk cycles are enough since players are looking at facial/torso silhouette, 
+not foot placement
