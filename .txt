@@ -1,0 +1,33 @@
+PUSH 01 — Project Config + Folder Structure
+============================================
+Commit message: "Push 01: Project setup, folder structure, pixel art settings"
+
+NO CODE FILES — just settings and folders.
+
+GODOT PROJECT SETTINGS:
+  Project > Project Settings > Display > Window
+    Viewport Width:  320
+    Viewport Height: 180
+    Stretch Mode:    canvas_items
+    Stretch Aspect:  keep
+
+  Project > Project Settings > Rendering > Textures
+    Default Texture Filter: Nearest
+
+FOLDERS TO CREATE in FileSy stem panel (right-click res:// > New Folder):
+  res://assets/sprites/player/
+  res://assets/sprites/tiles/
+  res://assets/sprites/enemies/
+  res://assets/sprites/npcs/
+  res://assets/audio/sfx/
+  res://assets/audio/music/
+  res://data/dialogue/
+  res://scenes/levels/
+  res://scenes/player/
+  res://scenes/enemies/
+  res://scenes/npcs/
+  res://scenes/ui/
+  res://scripts/player/
+  res://scripts/systems/
+  res://scripts/enemies/
+  res://scripts/ui/
