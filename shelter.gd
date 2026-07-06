@@ -34,3 +34,32 @@ func _on_body_exited(body: Node2D) -> void:
 
 func is_player_sheltered() -> bool:
 	return _player_inside
+
+extends CanvasLayer
+
+@onready var warning_bar   : PanelContainer = $WarningBar
+@onready var warning_label : Label          = $WarningBar/Label
+
+
+func _ready() -> void:
+	layer                = 50
+	warning_bar.visible  = false
+	warning_label.text   = "⚠ DUST STORM INCOMING — FIND SHELTER"
+
+
+func show_warning() -> void:
+	warning_bar.visible = true
+	# Blink 3 times
+	for i in 3:
+		warning_bar.modulate.a = 1.0
+		await get_tree().create_timer(0.4).timeout
+		warning_bar.modulate.a = 0.3
+		await get_tree().create_timer(0.4).timeout
+	warning_bar.modulate.a = 1.0
+
+
+func hide_warning() -> void:
+	var tween := create_tween()
+	tween.tween_property(warning_bar, "modulate:a", 0.0, 0.5)
+	await tween.finished
+	warning_bar.visible = false
