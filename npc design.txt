@@ -1,0 +1,216 @@
+═══════════════════════════════════════════════════════════════
+ARAL SEA REVIVAL — NPC DESIGN DOCUMENT
+Passive NPCs: behavior, dialogue rules, movement patterns
+═══════════════════════════════════════════════════════════════
+
+CORE NPC PHILOSOPHY
+───────────────────
+All NPCs in this game are PASSIVE. They never attack Rustam.
+They never block his path. They never demand anything.
+They exist to:
+  1. Give context and emotional weight to the world
+  2. Offer optional dialogue that enriches the story
+  3. Provide tools, hints, or items when approached
+  4. React to the world changing as Rustam restores it
+
+Think of them like real people in a quiet, grieving town —
+not quest-givers in a fantasy RPG. They have their own
+routines. They are tired. Some are hopeful. Some have given up.
+
+═══════════════════════════════════════════════════════════════
+NPC ROSTER — FULL DETAIL
+═══════════════════════════════════════════════════════════════
+
+──────────────────────────────────────────
+NPC 01: GRANDMOTHER BIBI
+Chapter: 1 (Hometown)
+Role: Emotional anchor, memory keeper
+──────────────────────────────────────────
+PERSONALITY:
+  Warm but deeply sad. Speaks slowly.
+  Uses Uzbek proverbs naturally in conversation.
+  Does not complain — just remembers.
+  Never asks Rustam to do anything directly.
+  She trusts that he already knows what must be done.
+
+ROUTINE (passive behavior loop):
+  Morning → sits on her doorstep, looks east
+  Midday  → waters a single dying plant in her yard
+  Evening → goes inside, lamp light visible in window
+
+MOVEMENT:
+  Never leaves her yard. Walks 3-4 tiles max.
+  Speed: very slow (30px/s)
+  Pauses every 8 seconds to "rest and look at horizon"
+
+DIALOGUE STATES:
+  First meeting  → full story of the sea (kamola.json)
+  After chapter 1 done → "Go child. Come back with good news."
+  After well activated → "I dreamed of water last night."
+  After restoration → "I knew you would do it. I always knew."
+
+SPRITE NEEDS:
+  idle_sit    2 frames   (sitting, slight breathing)
+  idle_stand  2 frames   (standing, looking away)
+  walk        3 frames   (very slow shuffle)
+  Size: 24x28px (shorter than Rustam — she is elderly)
+
+──────────────────────────────────────────
+NPC 02: DR. KAMOLA
+Chapter: 2 (Muynak — research tent)
+Role: Technical mentor, upgrade provider
+──────────────────────────────────────────
+PERSONALITY:
+  Precise and methodical. Slightly dry humor.
+  Never wastes words. Respects Rustam immediately
+  because he has actually read her research.
+  She is exhausted but refuses to show it.
+
+ROUTINE:
+  Always at her research desk inside the tent
+  Occasionally steps out, takes water sample from ground
+  Returns inside after 12 seconds
+  Never wanders far — she is too focused
+
+MOVEMENT:
+  Tent interior only. 2-tile radius.
+  Speed: 45px/s when moving to sample spot
+
+DIALOGUE STATES:
+  First meeting  → kamola.json full intro
+  After 1 ship   → "Good. Keep going."
+  After upgrade  → "Take care of that bolgarka."
+  Storm incoming → "Get inside. I have data to protect."
+  After ch3 done → "The soil pH is already improving. Remarkable."
+
+SPRITE NEEDS:
+  idle_desk   2 frames   (writing, looking at notes)
+  idle_stand  2 frames   (standing with clipboard)
+  walk        3 frames   (purposeful stride)
+  Size: 30x32px
+
+──────────────────────────────────────────
+NPC 03: MALIK (Local Activist, Driver)
+Chapter: 1→2 transition
+Role: Transports Rustam, political voice
+──────────────────────────────────────────
+PERSONALITY:
+  Loud, passionate, speaks fast and with his hands.
+  Angry at the system but not at people.
+  Loves Rustam like a younger brother.
+  Cracks dark jokes about the desert to cope.
+
+ROUTINE:
+  Waits by his jeep at the edge of Hometown
+  Leans against the vehicle, arms crossed
+  Kicks dirt occasionally
+  Looks at phone (pixel art: tiny glowing rectangle)
+
+MOVEMENT:
+  Stays within 4 tiles of his jeep
+  Speed: 55px/s (energetic)
+
+DIALOGUE STATES:
+  Before ch1 done  → "Whenever you are ready bro. No rush.
+                       Actually there is a rush. The sea is dying."
+  Ready to travel  → Triggers jeep cutscene to Muynak
+  In Muynak        → Drops Rustam off, drives away, says
+                      "Call me when you need a ride back."
+
+SPRITE NEEDS:
+  idle_lean   2 frames   (leaning on jeep)
+  idle_stand  2 frames   (arms crossed)
+  walk        3 frames
+  sit_drive   1 frame    (in jeep cutscene only)
+  Size: 32x32px
+
+──────────────────────────────────────────
+NPC 04: KAZAKH BORDER GUARD
+Chapter: 4 (Border)
+Role: Represents Kazakhstan, co-operates
+──────────────────────────────────────────
+PERSONALITY:
+  Reserved and professional at first.
+  Not hostile — just doing his job.
+  Warms up when he realizes Rustam's intentions.
+  Proud of the Kokaral Dam success on their side.
+  Wants the same thing Rustam does — just from
+  the other side of the border.
+
+ROUTINE:
+  Patrols 8-tile stretch along the wall
+  Stops at each end, looks out, turns back
+  Patrol cycle: 12 seconds each direction
+
+MOVEMENT:
+  Patrol path only. Speed: 40px/s.
+  Stops completely when Rustam approaches within 3 tiles.
+
+DIALOGUE STATES:
+  First approach → "This is a restricted area. State your purpose."
+  After Rustam explains → "...You came all the way from Muynak?"
+  Agreement moment → "My grandfather fished this sea too."
+  Pre-TNT → gives Rustam the TNT, steps back together
+  Post-water → "It is working. It is actually working."
+
+SPRITE NEEDS:
+  idle_stand  2 frames   (guard stance)
+  walk        3 frames   (patrol walk, more formal)
+  turn        1 frame    (turning at patrol end)
+  handshake   2 frames   (cutscene only)
+  Size: 32x32px (slightly taller than Rustam — wear hat)
+
+──────────────────────────────────────────
+NPC 05: OLD FISHERMAN (unnamed)
+Chapter: 2 (Muynak, optional)
+Role: Ambient storyteller, no quest
+──────────────────────────────────────────
+PERSONALITY:
+  Sits by his old boat on the sand.
+  Says very little. What he says hits hard.
+  Does not know Rustam. Does not care who he is.
+  Just talks to anyone who stops.
+
+ROUTINE:
+  Sits in one spot all day. Does not move.
+  Occasionally mends a net (though there are no fish)
+  Looks at the horizon every 15 seconds
+
+DIALOGUE:
+  Only one conversation. 3 lines. No name shown.
+  [Old Man] "I used to leave at 4am. Back by noon. Boat full."
+  [Old Man] "Now I come here anyway. Habit, I suppose."
+  [Old Man] "The sea will come back. I will not. That is okay."
+  → No response from Rustam. Just silence.
+
+SPRITE NEEDS:
+  idle_sit    2 frames
+  Size: 26x28px (hunched, smaller)
+
+═══════════════════════════════════════════════════════════════
+PASSIVE NPC BEHAVIOR — GODOT IMPLEMENTATION RULES
+═══════════════════════════════════════════════════════════════
+
+All NPCs share these rules in code:
+
+1. NEVER use NavigationAgent2D to chase player
+2. Use ONLY pre-defined waypoint paths for movement
+3. Always face player when player is within 3 tiles
+4. Play idle animation between waypoints
+5. Freeze routine during active dialogue
+6. Resume routine 2 seconds after dialogue ends
+7. Never overlap with player collision
+8. process_mode = PAUSABLE (pause during cutscenes)
+
+NPC BASE SCRIPT STRUCTURE:
+  state: IDLE / WALKING / TALKING
+  waypoints: Array[Vector2]  (set in Inspector)
+  current_waypoint: int
+  face_player_range: float = 96.0  (3 tiles)
+  routine_timer: float
+
+FACING LOGIC (runs every frame, overrides movement):
+  if player within face_player_range:
+    rotate sprite toward player
+    (just flip_h for left/right,
+     swap animation for up/down)
