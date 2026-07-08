@@ -1,0 +1,218 @@
+═══════════════════════════════════════════════════════════════
+ARAL SEA REVIVAL — REVISED PLOT & ENDING
+New Chapter 5: The Time Gate / USSR Policy Arc
+═══════════════════════════════════════════════════════════════
+
+OVERVIEW OF THE CHANGE
+───────────────────────
+Original ending: Rustam blows the northern wall,
+water flows in, he swims into the sunset. Good ending.
+
+New ending: The magic well does not just heal Rustam.
+It opens a GATE backward in time. Rustam can physically
+travel to 1950s-1960s Soviet Uzbekistan and influence
+the political decisions that caused the disaster.
+He does not erase history — he plants the seed of change
+that eventually, 70 years later, allows the sea to return.
+Peaceful. Historical. Earned. Emotionally devastating in
+the best possible way.
+
+═══════════════════════════════════════════════════════════════
+REVISED CHAPTER STRUCTURE (5 chapters now)
+═══════════════════════════════════════════════════════════════
+
+CHAPTER 1 — COMING HOME (unchanged)
+  Hometown → meet Bibi → hear about the sea
+  Goal: understand what was lost
+
+CHAPTER 2 — THE GRAVEYARD (mostly unchanged)
+  Muynak → ships → Kamola → enemies
+  Goal: restore the surface, learn the scale of damage
+
+CHAPTER 3 — THE SEAFLOOR (expanded)
+  Dry seabed → traps → soil restoration → the well
+  NEW: After activating the well and being reborn,
+  a second vision appears — not just water, but
+  a flickering image of a government office, 1950s.
+  Bibi's voice: "The well remembers everything.
+  Even the decisions that should not have been made."
+  Goal: restore the physical land AND discover the gate
+
+CHAPTER 4 — THE GATE (NEW CHAPTER)
+  The well opens a circular portal at its base.
+  Rustam must choose: go through, or stay.
+  If he stays: original ending (good, bittersweet)
+  If he goes through: Chapter 5 begins.
+
+  The portal room:
+    Circular chamber at the bottom of the well
+    Walls show flickering images — Soviet maps, cotton fields,
+    men in suits pointing at rivers on paper
+    The gate pulses gold and white
+    Bibi's photo (from collectibles) glows in inventory
+
+  Rustam: "If I could go back... not to fight.
+           Just to speak to one person.
+           Would that be enough?"
+  Gate: [It responds to his intention — opens fully]
+
+CHAPTER 5 — TASHKENT, 1953 (NEW)
+  Rustam arrives in black-and-white (desaturated palette).
+  The world is pixel art but the color is washed out —
+  everything in greys, creams, and faded Soviet reds.
+  He cannot fight. He has no tools.
+  He can only WALK and TALK.
+
+  The level: A government administrative building.
+  Soviet-era corridors, maps on walls, typewriters.
+  NPCs are Soviet planners in uniform — passive, busy.
+
+  THE GOAL:
+  Find Minister Zorin — the fictional official who
+  signed the order to divert the Amu Darya river.
+  He is about to sign the second, larger diversion order.
+  Rustam must convince him not to.
+
+  HOW:
+  Rustam cannot attack him. Cannot steal the document.
+  He must collect 3 EVIDENCE ITEMS in the building first:
+    - A hydrologist's warning report (ignored, in a trash bin)
+    - A photograph of the Aral Sea at full size (on a wall)
+    - A letter from a Karakalpak fisherman (lost in a drawer)
+
+  Then bring them to Zorin.
+  Present them one by one in dialogue.
+
+  ZORIN DIALOGUE ARC:
+  Item 1 (report):
+    Zorin: "That is one scientist's opinion."
+    Rustam: "It is a prediction. And it came true."
+  Item 2 (photograph):
+    Zorin: "The sea is large. It can spare the water."
+    Rustam: "Not forever. Look at this photograph.
+              In seventy years — nothing but dust."
+  Item 3 (letter):
+    Zorin: "...This fisherman. He has children?"
+    Rustam: "His grandchildren cannot breathe clean air."
+    [Long silence. Zorin looks at the map. Looks at Rustam.]
+    Zorin: "How do you know all this?"
+    Rustam: "I lived it."
+
+  OUTCOME:
+  Zorin does not cancel the project entirely.
+  (Rustam cannot change everything — that would be false)
+  But he adds a preservation clause to the order:
+  Minimum water flow must be maintained to the sea.
+  A tiny change. A seed.
+
+  Zorin: "I will add a footnote. That is all I can do."
+  Rustam: "A footnote saved the North Aral Sea in 2005.
+           A footnote is enough."
+
+═══════════════════════════════════════════════════════════════
+THE FINAL ENDING
+═══════════════════════════════════════════════════════════════
+
+Rustam steps back through the gate.
+
+The well chamber begins to fill with water — slowly,
+from the bottom, clean and cold.
+
+He swims upward through the well shaft.
+
+He surfaces in the restored Aral Sea.
+
+DIFFERENCE FROM ORIGINAL ENDING:
+This time the water is not just from the broken wall.
+It comes from EVERYWHERE — north AND south.
+Because the preservation clause Zorin signed meant
+slightly more water reached the sea every decade.
+It was not enough to stop the disaster.
+But it was enough to make the restoration possible
+when Rustam finally came home.
+
+The color returns to the world as he surfaces.
+Greens and blues flood the palette.
+
+Bibi is standing on the new shore.
+She is young in this moment — the photograph version of her.
+She waves.
+
+Rustam: "Was it real?"
+[No answer. Just water. Just light. Just the sea.]
+
+Final image: the satellite view, 1984 → 2026.
+The sea, partially restored.
+Text: "The North Aral Sea began recovering in 2005
+       after the construction of the Kokaral Dam.
+       The South Aral Sea remains dry.
+       The work continues."
+
+═══════════════════════════════════════════════════════════════
+CHAPTER 5 MECHANICS (minimal — story-focused)
+═══════════════════════════════════════════════════════════════
+
+MOVEMENT:   Normal walking only. No running.
+            (The past feels heavy. Slow movement is intentional.)
+
+PALETTE:    Full desaturation. Only Rustam has color —
+            his jacket stays dark navy. Everything else grey.
+
+ENEMIES:    None. Zero combat in Chapter 5.
+            The tension is entirely emotional.
+
+TRAPS:      None. No danger.
+            The danger already happened — 70 years ago.
+
+TOOLS:      None. Inventory is hidden in this chapter.
+
+MUSIC:      Single piano track. No percussion.
+            Melancholic but not hopeless.
+
+TIME LIMIT: Soft limit — a clock on the wall of the
+            government building ticks. If Rustam takes
+            too long, the signing ceremony begins and
+            Zorin becomes unavailable (bad ending branch).
+            Player has ~8 real minutes to collect all 3 items.
+
+BAD ENDING BRANCH:
+  If Zorin signs before Rustam presents evidence:
+  Rustam returns to present. The sea is restored only
+  partially (original ending visual). Still hopeful.
+  But the text reads: "Some changes come too late to prevent.
+  But never too late to begin healing."
+
+═══════════════════════════════════════════════════════════════
+NEW SPRITES NEEDED FOR CHAPTER 5
+═══════════════════════════════════════════════════════════════
+
+ENVIRONMENT TILES (greyscale variants):
+  Soviet corridor floor    32x32
+  Dark wood door           32x32
+  Soviet wallpaper tile    32x32 (diagonal pattern, muted red)
+  Desk with papers         32x32
+  Map on wall              64x32 (2-tile wide)
+  Window (barred)          32x32
+
+NEW NPCs:
+  Minister Zorin           32x32  (portly, uniform, medals)
+    idle_desk, idle_stand, sign_paper, stop_signing
+  Soviet Clerk x2          24x32  (background NPCs, typewriting)
+    idle_type (2 frames loop)
+  Secretary                28x32  (blocks Zorin's office door)
+    idle_stand
+
+EVIDENCE ITEMS (small sprites, 16x16):
+  Hydrologist report       folded paper, slightly crumpled
+  Aral Sea photograph      small framed photo, blue tones
+  Fisherman's letter       envelope with handwriting visible
+
+═══════════════════════════════════════════════════════════════
+PUSH ASSIGNMENTS FOR NEW CONTENT
+═══════════════════════════════════════════════════════════════
+
+PUSH 21 — Trap system code (all 6 trap types)
+PUSH 22 — Passive NPC base script + waypoint movement
+PUSH 23 — Chapter 4 portal/gate scene + choice UI
+PUSH 24 — Chapter 5 level: USSR government building
+PUSH 25 — Zorin dialogue + evidence system + ending branches
