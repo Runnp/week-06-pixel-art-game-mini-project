@@ -1,0 +1,246 @@
+═══════════════════════════════════════════════════════════════
+ARAL SEA REVIVAL — MASTER TODO LIST
+Read this when you sit down at your PC
+═══════════════════════════════════════════════════════════════
+
+PRIORITY ORDER: DO THESE FIRST
+───────────────────────────────
+[ ] 1. Install Godot 4.x from godotengine.org
+[ ] 2. Create project: aral-sea-revival
+[ ] 3. Set pixel art project settings (320x180, Nearest filter)
+[ ] 4. Create all folders in FileSystem panel
+[ ] 5. Copy all .gd files into correct folders (see map below)
+[ ] 6. Register 8 autoloads in Project Settings
+
+AUTOLOADS TO REGISTER (in this exact order):
+─────────────────────────────────────────────
+[ ] GameManager      → scripts/systems/game_manager.gd
+[ ] DialogueManager  → scripts/systems/dialogue_manager.gd
+[ ] Inventory        → scripts/systems/inventory.gd
+[ ] SaveSystem       → scripts/systems/save_system.gd
+[ ] ScreenFade       → scripts/systems/screen_fade.gd
+[ ] Diary            → scripts/systems/diary.gd
+[ ] Photos           → scripts/systems/photo_collection.gd
+[ ] ToolUpgrades     → scripts/systems/tool_upgrades.gd
+
+SCENES TO BUILD (in this order):
+──────────────────────────────────
+[ ] Player.tscn
+      CharacterBody2D → AnimatedSprite2D, CollisionShape2D,
+      RayCast2D (InteractRay), Camera2D
+      Attach: player.gd
+      Group: "player"
+
+[ ] DialogueBox.tscn
+      CanvasLayer → PanelContainer → VBoxContainer
+        → SpeakerLabel, TextLabel, PromptLabel
+      Attach: dialogue_box.gd
+
+[ ] HUD.tscn
+      CanvasLayer → VBoxContainer
+        → HealthBar, ToolLabel, PromptLabel, RestorationBox
+           → TreesLabel, ShipsLabel, FishLabel
+      Attach: hud.gd
+      Group: "hud"
+
+[ ] PauseMenu.tscn
+      CanvasLayer (process_mode: Always) → PanelContainer
+      Attach: pause_menu.gd
+
+[ ] MainMenu.tscn
+      Control → ColorRect, VBoxContainer
+        → TitleLabel, StartButton, QuitButton
+      Attach: main_menu.gd
+
+[ ] Hometown.tscn
+      Node2D → TileMapLayer, HUD.tscn, DialogueBox.tscn,
+               PauseMenu.tscn, Player.tscn
+      Attach: hometown_generator.gd
+
+[ ] Muynak.tscn
+      Node2D → TileMapLayer, HUD.tscn, DialogueBox.tscn,
+               PauseMenu.tscn, DustStorm node
+      Attach: muynak_level.gd
+
+[ ] Seafloor.tscn (Chapter 3)
+[ ] Border.tscn   (Chapter 4)
+[ ] USSR.tscn     (Chapter 5 — new time travel level)
+
+═══════════════════════════════════════════════════════════════
+ALL FILES AND WHERE THEY GO
+═══════════════════════════════════════════════════════════════
+
+res://scripts/player/
+  player.gd                    ← Push 02
+
+res://scripts/systems/
+  game_manager.gd              ← Push 03  AUTOLOAD
+  dialogue_manager.gd          ← Push 03  AUTOLOAD
+  inventory.gd                 ← Push 03  AUTOLOAD
+  save_system.gd               ← Extra    AUTOLOAD
+  screen_fade.gd               ← Extra    AUTOLOAD
+  diary.gd                     ← Extra    AUTOLOAD
+  photo_collection.gd          ← Push 18  AUTOLOAD
+  tool_upgrades.gd             ← Push 19  AUTOLOAD
+
+res://scripts/enemies/
+  base_enemy.gd                ← Push 08  (never attach directly)
+  dust_drifter.gd              ← Push 08
+  rusted_sailor.gd             ← Push 12
+  cotton_specter.gd            ← Extra
+  cotton_boll.gd               ← (in cotton_specter comments)
+  metal_shard.gd               ← (in rusted_sailor comments)
+
+res://scripts/npcs/
+  npc_base.gd                  ← Today    (never attach directly)
+  npc_bibi.gd                  ← Push 06
+  npc_kamola.gd                ← Push 19
+  npc_malik.gd                 ← (write when at PC)
+  npc_guard.gd                 ← (write when at PC)
+  npc_fisherman.gd             ← (write when at PC)
+  npc_zorin.gd                 ← Push 25
+
+res://scripts/world/
+  soil_patch.gd                ← Push 10
+  tree_spot.gd                 ← Push 10
+  ship_wreck.gd                ← Push 10
+  magic_well.gd                ← Push 13
+  north_wall.gd                ← Push 14
+  rising_water.gd              ← Push 14
+  dust_storm.gd                ← Extra
+  shelter.gd                   ← Push 16
+  fish_food_spot.gd            ← Push 17
+  aquarium.gd                  ← Push 17
+  photo_pickup.gd              ← Push 18
+  trap_sinkhole.gd             ← Push 21
+  trap_chemical.gd             ← Push 21
+  trap_wire.gd                 ← Push 21
+  trap_plank.gd                ← Push 21
+  trap_dustdevil.gd            ← Push 21
+  trap_mine.gd                 ← Push 21
+
+res://scripts/levels/
+  hometown_generator.gd        ← Push 04
+  muynak_level.gd              ← Push 11
+  seafloor_level.gd            ← (Push 23)
+  ussr_level.gd                ← (Push 24)
+
+res://scripts/ui/
+  hud.gd                       ← Push 07
+  dialogue_box.gd              ← Push 06
+  storm_warning.gd             ← Push 16
+  main_menu.gd                 ← Push 15
+  credits.gd                   ← Push 15
+  photo_gallery.gd             ← Push 18
+  pause_menu.gd                ← Push 20
+
+═══════════════════════════════════════════════════════════════
+DIALOGUE JSON FILES TO CREATE
+res://data/dialogue/
+═══════════════════════════════════════════════════════════════
+[ ] bibi.json        ← in Push 06 file as comment
+[ ] kamola.json      ← in Push 19 file as comment
+[ ] zorin.json       ← Push 25 (USSR chapter)
+[ ] malik.json       ← write at PC
+[ ] guard.json       ← write at PC
+[ ] fisherman.json   ← write at PC (3 lines only)
+
+═══════════════════════════════════════════════════════════════
+SPRITES TO DRAW ON IPAD (32x32 unless noted)
+═══════════════════════════════════════════════════════════════
+
+RUSTAM (player):
+[ ] idle_down   (1 frame)
+[ ] idle_up     (1 frame)
+[ ] idle_side   (1 frame — mirrored for left)
+[ ] walk_down   (4 frames)
+[ ] walk_up     (4 frames)
+[ ] walk_side   (4 frames)
+[ ] death       (4 frames)
+
+BIBI (24x28):
+[ ] idle_sit    (2 frames)
+[ ] idle_stand  (2 frames)
+[ ] walk        (3 frames)
+
+KAMOLA (30x32):
+[ ] idle_desk   (2 frames)
+[ ] idle_stand  (2 frames)
+[ ] walk        (3 frames)
+
+MALIK (32x32):
+[ ] idle_lean   (2 frames)
+[ ] idle_stand  (2 frames)
+[ ] walk        (3 frames)
+
+KAZAKH GUARD (32x32 + hat):
+[ ] idle_stand  (2 frames)
+[ ] walk        (3 frames)
+[ ] handshake   (2 frames — cutscene)
+
+OLD FISHERMAN (26x28):
+[ ] idle_sit    (2 frames)
+
+ZORIN (USSR chapter, 34x32 — slightly wider/portlier):
+[ ] idle_desk   (2 frames)
+[ ] idle_stand  (2 frames)
+[ ] sign_paper  (2 frames)
+[ ] stop_sign   (1 frame)
+
+ENEMIES:
+[ ] DustDrifter  walk/attack/hurt/death
+[ ] RustedSailor walk/throw/slam/hurt/death
+[ ] CottonSpecter idle/summon/drain/hurt/death
+[ ] CottonBoll   walk/hurt/death  (16x16 small)
+
+TILES (32x32 each):
+[ ] Hometown: grass, sand, wall, doorway, dirt path
+[ ] Muynak: desert sand, salt crust, ship hull, tent interior
+[ ] Seafloor: dry seabed, salt flat, cracked earth, well stone
+[ ] Border: concrete wall, border post tile, watchtower base
+[ ] USSR: corridor floor, Soviet wallpaper, wood door, desk
+
+═══════════════════════════════════════════════════════════════
+GIT COMMIT LOG TO MAINTAIN
+═══════════════════════════════════════════════════════════════
+Push 01 — Project setup
+Push 02 — Player movement
+Push 03 — Autoloads
+Push 04 — Hometown tilemap
+Push 05 — Level door trigger
+Push 06 — Dialogue system + Bibi
+Push 07 — HUD
+Push 08 — Dust Drifter enemy
+Push 09 — Pickup items
+Push 10 — Restoration mechanics
+Push 11 — Muynak level
+Push 12 — Rusted Sailor enemy
+Push 13 — Magic well
+Push 14 — Final act TNT + water
+Push 15 — Main menu + credits
+Push 16 — Dust storm + shelter
+Push 17 — Aquarium + fish
+Push 18 — Photo collectibles
+Push 19 — Kamola NPC + upgrades
+Push 20 — Pause menu
+Push 21 — Trap system (6 traps)
+Push 22 — Passive NPC system
+Push 23 — Chapter 4 gate scene
+Push 24 — USSR level
+Push 25 — Zorin + evidence + endings
+
+═══════════════════════════════════════════════════════════════
+NOTES FROM TODAY'S PLANNING
+═══════════════════════════════════════════════════════════════
+- NPCs must NEVER attack. Passive routines only.
+- Traps replace combat challenge in open desert areas.
+- Chapter 5 is grayscale. Only Rustam has color.
+- Zorin does not fully stop the disaster —
+  he just adds a footnote. Realistic. Earned.
+- The ending is hopeful but honest:
+  partial restoration, the work continues.
+- Magic well causes time travel (not just healing).
+- 8 minute soft time limit in USSR chapter.
+- Bad ending still exists if player is too slow.
+- The old fisherman NPC has only 3 lines. Do not add more.
+  Those 3 lines are the saddest moment in the game.
