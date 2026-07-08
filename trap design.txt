@@ -1,0 +1,203 @@
+═══════════════════════════════════════════════════════════════
+ARAL SEA REVIVAL — TRAP SYSTEM
+Desert environmental hazards that replace combat challenge
+═══════════════════════════════════════════════════════════════
+
+DESIGN PHILOSOPHY
+─────────────────
+The Aral Sea desert is not safe. But the danger is
+environmental — not military. Traps in this game feel
+like the land itself warning you, not someone trying
+to hurt you. They are remnants of the disaster:
+chemical spills, unstable salt flats, buried debris,
+old Soviet infrastructure falling apart.
+
+Rustam can avoid all traps with careful movement.
+No trap is instant death. All traps telegraph before
+they activate (warning visual, color change, sound).
+
+═══════════════════════════════════════════════════════════════
+TRAP TYPES
+═══════════════════════════════════════════════════════════════
+
+──────────────────────────────────────────
+TRAP 01: SALT SINKHOLE
+Location: Seafloor level, open desert areas
+──────────────────────────────────────────
+WHAT IT IS:
+  Thin salt crust over a hollow pit.
+  Looks identical to safe ground until you step near it.
+
+BEHAVIOR:
+  Phase 1 (safe):   Slightly different tile color (subtle crack)
+  Phase 2 (warning): Rustam steps within 1 tile → crust shimmers
+                     Small dust puff particle
+  Phase 3 (breaking): 0.8 second delay → cracks visually
+  Phase 4 (fallen):  Rustam takes 15 damage, movement slowed
+                     50% for 3 seconds (dust in legs)
+  Phase 5 (reset):   Crust reforms after 20 seconds
+
+AVOIDANCE:
+  Walk around it. Or use shovel to probe ahead (if upgraded).
+  Upgraded shovel automatically highlights sinkholes nearby.
+
+GODOT IMPL:
+  StaticBody2D (normal ground tile)
+  Area2D child (warning trigger, radius 36px)
+  Timer (0.8s before damage)
+  AnimatedSprite2D (crack frames: safe/warning/broken/reform)
+
+──────────────────────────────────────────
+TRAP 02: CHEMICAL PUDDLE
+Location: Muynak, near old industrial areas
+──────────────────────────────────────────
+WHAT IT IS:
+  Pesticide/fertilizer runoff pooled on the ground.
+  Iridescent greenish color — visually distinct.
+
+BEHAVIOR:
+  Always visible (no stealth phase)
+  Rustam walks into it → 5 damage per second
+  Vision gets slightly blurred (shader effect: wiggle)
+  Lasts until Rustam exits the puddle Area2D
+
+AVOIDANCE:
+  Go around. Or use spray_can to neutralize it
+  (interacting with the puddle while holding spray_can
+   converts it to safe ground, adds 1 to tree count
+   since it enriches soil)
+
+VARIANTS:
+  Small (2x2 tiles)  → 5 dmg/sec
+  Large (4x4 tiles)  → 8 dmg/sec
+  Spreading (grows over time if left) → max 6x6 tiles
+
+GODOT IMPL:
+  Area2D with animated sprite (slow shimmer loop)
+  _process: deal damage while body_inside array has player
+  Shader: mild distortion on camera when inside
+
+──────────────────────────────────────────
+TRAP 03: RUSTED WIRE SNARE
+Location: Muynak ship graveyard
+──────────────────────────────────────────
+WHAT IT IS:
+  Old fishing wire or ship rigging left in the sand.
+  Nearly invisible until you walk into it.
+
+BEHAVIOR:
+  Phase 1: Thin 1px line across a tile gap (hard to see)
+  Phase 2: Player crosses it → snared, cannot move 2 seconds
+  Phase 3: Takes 10 damage from the wire cutting in
+  Phase 4: Wire breaks, player free
+
+AVOIDANCE:
+  Look carefully. Move slowly in ship graveyard.
+  If you have rake equipped, it auto-clears wires on walk
+  (upgraded rake passive from Push 19)
+
+VISUAL:
+  1-2px horizontal or diagonal line across a doorway/gap
+  Slight glint animation (1 frame flash every 3 seconds)
+  Once broken: wire pieces on ground (decorative, no collision)
+
+GODOT IMPL:
+  Area2D (very thin CollisionShape2D, RectangleShape 32x2)
+  On body_entered: freeze player (can_move = false), timer 2s
+  AnimatedSprite2D: idle glint / snap / broken
+
+──────────────────────────────────────────
+TRAP 04: COLLAPSING FLOOR PLANK
+Location: Inside abandoned buildings (Hometown ruins)
+──────────────────────────────────────────
+WHAT IT IS:
+  Rotted wooden floor inside derelict Soviet-era buildings.
+  Rustam can explore these optionally for diary pages.
+
+BEHAVIOR:
+  Phase 1: Planks look slightly darker than safe floor
+  Phase 2: Rustam stands on it → creaking visual (shake)
+            0.5s delay
+  Phase 3: Plank breaks → Rustam drops, takes 12 damage
+  Phase 4: Hole remains for rest of level session
+           (blocks that path — must find another way)
+
+AVOIDANCE:
+  Don't step on dark-colored floor tiles.
+  Or move quickly across (under 0.3s = no trigger)
+
+GODOT IMPL:
+  StaticBody2D with AnimatedSprite2D
+  On body_entered: start shake tween + 0.5s timer
+  If player still on it after timer: disable collision,
+  play break animation, deal damage
+  Once broken: replace with hole sprite (no collision)
+
+──────────────────────────────────────────
+TRAP 05: DUST DEVIL (MINI TORNADO)
+Location: Open desert, Seafloor level
+──────────────────────────────────────────
+WHAT IT IS:
+  Small wandering dust tornado.
+  Natural hazard, not placed deliberately.
+  Moves semi-randomly across the open seabed.
+
+BEHAVIOR:
+  Spawns at map edge, wanders across level in 20-30s
+  Contact: pushes Rustam 48px in impact direction
+            + 8 damage + 1s disoriented (controls inverted)
+  Disappears at opposite map edge
+
+WARNING:
+  Sound cue 3 seconds before it reaches player area
+  Sand particle trail visible from far away
+
+AVOIDANCE:
+  Watch the trail, step to the side
+  Dust Drifter enemies get BUFFED near Dust Devils
+  (they absorb the dust and move 30% faster)
+
+GODOT IMPL:
+  CharacterBody2D (not enemy — no state machine)
+  Moves in straight line with slight sine wave drift
+  Area2D child: on body_entered apply knockback + damage
+  AnimatedSprite2D: spinning sand column 4 frames
+  Spawner node at map edge on random Timer (15-40s interval)
+
+──────────────────────────────────────────
+TRAP 06: SOVIET MINE (Rare — Chapter 4 only)
+Location: Border area near the wall
+──────────────────────────────────────────
+WHAT IT IS:
+  Old Soviet-era pressure mine left in the border zone.
+  Rare. Only 2-3 placed in the entire Border level.
+  The Kazakh guard warns about them in dialogue.
+
+BEHAVIOR:
+  Buried — only a tiny metallic glint visible
+  Step on it → 2 second countdown visual (red flash)
+  If not moved away: 35 damage (nearly fatal)
+  If moved away in time: mine detonates, leaves crater tile
+
+AVOIDANCE:
+  Guard tells you exactly where they are in dialogue.
+  Listen to his warnings. Walk the path he shows you.
+
+GODOT IMPL:
+  StaticBody2D (underground, tiny Sprite2D for glint)
+  On body_entered: start 2s countdown (AnimatedSprite2D blink)
+  Timer: if player still in range → deal 35 damage
+  Post-explosion: swap to crater tile sprite
+
+═══════════════════════════════════════════════════════════════
+TRAP PLACEMENT RULES
+═══════════════════════════════════════════════════════════════
+1. Never place a trap in the ONLY path forward
+   (always leave at least one safe route around it)
+2. First instance of each trap type must be in a safe
+   area where Rustam can observe it without triggering it
+3. Cluster similar traps together (chemical puddles near
+   industrial areas, sinkholes near dry open seabed)
+4. Never place traps within 4 tiles of an NPC
+5. After the magic well rebirth, Rustam moves faster —
+   reconsider wire snare placement post-well
