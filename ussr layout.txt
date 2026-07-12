@@ -1,0 +1,186 @@
+PUSH 31 — USSR Level: Government Building Layout
+Commit: "Push 31: USSR level design, corridor layout, room placements, props"
+Applies to: res://scenes/levels/USSR.tscn
+═══════════════════════════════════════════════════════════════
+
+OVERVIEW
+─────────
+Tashkent, Soviet Uzbek SSR. 1953.
+Ministry of Agriculture — Central Administration Building.
+
+This is the quietest level in the game.
+No enemies. No traps. No tools.
+Just Rustam, grey corridors, and 8 minutes.
+
+The building should feel LARGE and BUREAUCRATIC.
+Long corridors. Identical doors. Heavy furniture.
+Every NPC is busy and ignores Rustam completely
+until he speaks to them — then they are confused
+by his presence but not hostile.
+
+The COLOR rule: Everything is desaturated grey-cream.
+Only Rustam keeps his color. His navy jacket is the
+only dark blue in the entire level.
+
+
+MAP SIZE: 36 tiles wide x 28 tiles tall = 1152 x 896 pixels
+Style: Interior only. No outdoor tiles in this level.
+
+
+FLOOR PLAN LAYOUT
+──────────────────
+
+ENTRANCE HALL (tiles 0-35, rows 0-4)
+  Wide corridor. High ceilings implied by tall wall tiles.
+  A large Soviet state portrait on the north wall (Sprite2D)
+  Interact: "[A painting of Stalin. 1953. He is still in power.]"
+            "[Rustam looks away quickly.]"
+  A secretary's desk (tile 16,2) — NPC blocks the main corridor
+  She asks who Rustam is. He says he has an appointment.
+  She waves him through — confused but unbothered.
+  Coat rack with identical grey coats (decorative)
+  Floor: dark wood parquet tile pattern
+
+WEST CORRIDOR (tiles 0-6, rows 4-24)
+  Narrow. 3 doors on the right side (all locked except Room 7)
+  ROOM 3 door: locked — "Supply Storage"
+  ROOM 5 door: locked — "Director Absent"
+  ROOM 7 door: open — contains the Hydrologist's Report
+    Inside Room 7: small office, one desk, papers everywhere
+    The report is in the bin beside the desk
+    A Soviet clerk NPC sits at the desk typing (ignores Rustam)
+    Typewriter sound loop (future audio feature)
+
+MAIN CORRIDOR (tiles 6-30, rows 4-10)
+  Wide central hallway. Most NPCs walk here.
+  2 Soviet clerk NPCs patrol slowly back and forth
+  They carry files, look at the floor, say nothing unprompted
+  Interact with them: "[He glances at you briefly, then away.]"
+  The Aral Sea photograph hangs on the SOUTH wall at tile (18,9)
+    Framed, 48x32px
+    Interact: triggers evidence pickup for "photograph"
+    The frame is slightly crooked — nobody straightened it
+
+EAST CORRIDOR (tiles 30-35, rows 4-24)
+  Narrow, darker. Less used.
+  A water cooler (decorative) — bone dry, unplugged
+  A forgotten plant in a pot — dead, brown
+  The fisherman's letter is in a drawer in the side room (tile 33,16)
+    Side room: small, one desk, unlocked drawer prop
+    Interact with drawer: triggers evidence pickup for "letter"
+
+ROOM 14 — ZORIN'S OFFICE (tiles 12-24, rows 14-24)
+  The most important room. LOCKED at start.
+  A heavy wooden door at tile (18,14) — the secretary guards it
+  Secretary NPC blocks the door until all_evidence_found()
+  Once all 3 found: she steps aside, door becomes passable
+
+  Inside Room 14:
+    Large desk center (tile 18,19) — Zorin sits here
+    Behind him: a massive wall map of Soviet Central Asia
+      The Amu Darya and Syr Darya rivers are highlighted in blue
+      Cotton field regions marked in red
+      This is the map Rustam refers to in dialogue
+    Bookshelves on both side walls (decorative)
+    One window — grey light, bars visible
+    A clock on the wall showing current time (countdown display)
+    The signing document is visible on Zorin's desk (Sprite2D)
+      Before convinced: document is centered, pen ready
+      After convinced: document has a new paragraph visible
+
+CLOCK PROP (on wall in main corridor AND in Room 14)
+  Sprite2D with clock face
+  Attach script to update hands based on ussr_level.gd time_remaining
+  Or: just use the countdown Label UI from ussr_level.gd
+
+
+TILE PALETTE FOR USSR LEVEL
+─────────────────────────────
+All tiles are desaturated. No bright colors.
+
+  T_PARQUET       dark warm wood floor (main corridors)
+  T_TILE_FLOOR    grey-cream tile (office rooms)
+  T_WALLPAPER     diagonal pattern wall, muted red-cream
+  T_WALL_PLAIN    solid grey-cream interior wall
+  T_DOOR_OPEN     dark wood doorframe, open
+  T_DOOR_CLOSED   dark wood doorframe, closed (solid collision)
+  T_CARPET_RUNNER narrow dark red carpet strip (corridor center)
+
+
+PROPS TO PLACE IN USSR.TSCN
+────────────────────────────
+
+SECRETARY NPC         → tile (16, 2)
+  StaticBody2D — no NPC base script needed, one interaction only:
+  First interact: "You have an appointment? Your name is not on the list."
+                  "...Well. Go ahead. Room 14 is at the end."
+  After this: steps aside (move position 2 tiles right)
+
+SOVIET CLERK x2       → patrol main corridor
+  StaticBody2D with npc_base.gd (no custom script needed)
+  waypoints: [(6,7), (29,7)] — walk back and forth
+  wait_at_waypoint: 4.0
+  On interact: "[He glances at you briefly. Then away.]"
+
+ZORIN                 → tile (18, 19) Room 14
+  StaticBody2D with npc_zorin.gd
+  Facing down (toward player entering from north)
+
+ROOM 14 SECRETARY     → tile (18, 14) door guard
+  StaticBody2D, blocks door tile collision
+  Script: check GameManager for evidence count
+    if items_found < 3:  stay in place, say "Minister is busy"
+    if items_found >= 3: move aside, disable collision
+    (simple inline script, no separate file needed)
+
+EVIDENCE 01 — REPORT  → tile (2, 21) inside Room 7 bin
+  Area2D with evidence_item.gd
+  evidence_id: "report"
+  display_name: "Hydrologist's Warning Report"
+  pickup_text: "A prediction. Stamped IGNORED in red ink. 1948."
+
+EVIDENCE 02 — PHOTO   → tile (18, 9) south main corridor wall
+  Area2D with evidence_item.gd
+  evidence_id: "photograph"
+  display_name: "Aral Sea 1950 — Aerial Photograph"
+  pickup_text: "Blue water. A sea so large it has its own weather."
+
+EVIDENCE 03 — LETTER  → tile (33, 16) east corridor side room
+  Area2D with evidence_item.gd
+  evidence_id: "letter"
+  display_name: "Letter from a Karakalpak Fisherman, 1951"
+  pickup_text: "He writes to his son about the catch. Clean water. Good life."
+
+WALL MAP              → tile (18, 14) behind Zorin's desk
+  Sprite2D  96x64px
+  Shows stylized river routes and cotton regions
+  No interaction needed — visual context only
+
+CLOCK (hallway)       → tile (10, 5)
+  Sprite2D with clock face
+  Label child showing time from ussr_level.gd
+
+CLOCK (Room 14)       → tile (23, 15)
+  Same setup — shows same time
+  Turns red in last 2 minutes (modulate: Color(1,0.3,0.3))
+
+
+ATMOSPHERE NOTES
+────────────────
+The USSR level should feel like holding your breath.
+Every second the clock ticks. Every NPC is one more
+moment of delay. Zorin is close but unreachable until
+the player finds all three items.
+
+The corridor is long on purpose.
+Rustam has to walk the full length of the building
+to gather everything — there is no shortcut.
+
+The colour desaturation is the most important visual choice.
+When Rustam walks these grey halls his navy jacket
+should feel almost offensive — too alive for this place.
+The moment he steps back through the gate and colour
+returns to the world, the player should feel it physically.
+
+After Zorin adds the footnote, play a single soft piano note.
+No fanfare. Just one note. Then silence. Then the gate.
