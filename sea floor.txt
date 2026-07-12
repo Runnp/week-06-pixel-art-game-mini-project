@@ -1,0 +1,192 @@
+PUSH 29 — Seafloor Environment: The Dry Seabed
+Commit: "Push 29: Seafloor level, well zone, restoration areas, trap density"
+File: res://scripts/levels/seafloor_level.gd
+Attach to: root Node2D of Seafloor.tscn
+═══════════════════════════════════════════════════════════════
+
+WHAT THIS PUSH BUILDS
+──────────────────────
+The Seafloor is what used to be underwater.
+Every tile you walk on was once the bottom of the Aral Sea.
+This is the most open, most desolate, most important level.
+It is also where the game's emotional core lives — the well.
+
+The visual language shifts here:
+  - Muynak was orange-brown (rust and sand)
+  - The Seafloor is WHITE and GREY (salt, bone, emptiness)
+  - Only Rustam's planted trees bring color back in
+
+MAP SIZE: 48 tiles wide x 32 tiles tall = 1536 x 1024 pixels
+(Biggest level. Needs Camera2D limits set to map bounds.)
+
+CAMERA LIMITS (set in Player.tscn Camera2D):
+  Limit Left:   0
+  Limit Top:    0
+  Limit Right:  1536
+  Limit Bottom: 1024
+
+
+ZONE LAYOUT
+────────────
+
+ZONE A — Entry from Muynak (top 6 rows)
+  Salt flat transition — coming from the north
+  First sinkhole trap visible but avoidable (tutorial trap)
+  Soil patch x3 (spray to treat — triggers tree growth)
+  Tree spot x3 (plant saplings after spraying)
+  Small rusted anchor half-buried in ground (decorative)
+
+ZONE B — The Open Seabed (middle 18 rows, largest zone)
+  Pure white salt crust dominant tile
+  Scattered grey cracked earth for variety
+  THIS IS WHERE MOST GAMEPLAY HAPPENS:
+
+  Left side:
+    Ship skeleton (just bones of a very old wooden vessel)
+    Chemical puddle x2 (spread variant, starts small)
+    Salt Crust Crawler enemy x2 (burrow trap enemies)
+    Soil patch x4 + Tree spot x4
+
+  Center:
+    THE MAGIC WELL — tile position (24, 18) — exact center
+    Surrounded by a ring of unique "ancient stone" tiles
+    8 tile radius around well is clear — open ceremonial space
+    Diary page 05 hidden in the stone ring
+    Cotton Specter mini-boss patrols the ring perimeter
+    (blocks access to well until defeated)
+
+  Right side:
+    Rusted Soviet-era measurement buoy (old water level marker)
+    Interact: "[This marker once measured water depth.]"
+              "[The last recorded depth: 0.0 meters. 1989.]"
+    Dust Devil spawner (right edge, spawns every 25s)
+    Photo pickup: photo_aral_blue (hidden behind buoy)
+    Pesticide Shade enemy x1 (poisons tiles near buoy)
+
+ZONE C — The South Wall (bottom 8 rows)
+  Dense salt flat — almost impassable without rake
+  This is the "locked" area before the well is activated
+  After well activates: path opens here toward the gate
+  Time Gate appears at tile (24, 30) — deep south center
+  Surrounded by golden shimmer tiles (post-well only, set visible=false until then)
+
+
+TILE PALETTE FOR SEAFLOOR
+──────────────────────────
+  T_SALT_FLAT     pure white salt, main tile
+  T_CRACKED_GREY  grey cracked dry earth
+  T_ANCIENT_STONE darker grey, worn smooth — well surroundings
+  T_POISONED      sickly greenish tile (Chemical puddle aftermath)
+  T_RESTORED      NEW TILE — appears when Rustam treats soil
+                  Green-grey, shows life returning
+                  Replace T_CRACKED_GREY after spray_can used
+
+
+RESTORED TILE MECHANIC
+───────────────────────
+When Rustam uses spray_can on a soil_patch Area2D:
+  1. soil_patch.gd calls GameManager.plant_tree()
+  2. The tile beneath that Area2D changes to T_RESTORED
+  3. After 10 seconds, a small green sprout sprite appears
+  4. After tree_spot.gd is used nearby, full tree sprite grows
+
+This is the most visual payoff in the game.
+Walking through a restored section should feel
+completely different from the dead salt flats.
+Greener. Softer. Like something is breathing again.
+
+Code to add to soil_patch.gd _play_spray_effect():
+
+  # Change the tile beneath us to restored tile
+  var tilemap := get_tree().get_first_node_in_group("tilemap")
+  if tilemap:
+      var cell := tilemap.local_to_map(global_position)
+      tilemap.set_cell(cell, 0, Vector2i(0, 2))  # T_RESTORED coords
+
+
+PROPS TO PLACE IN SEAFLOOR.TSCN
+─────────────────────────────────
+
+MAGIC WELL            → tile (24, 18)    32x40px sprite
+  StaticBody2D with magic_well.gd
+  Sprite: stone circle with a dark center hole
+  PointLight2D child: initially OFF, turns ON when activated
+  Light color: gold  energy: 0  (tween to 1.5 on activation)
+  AnimatedSprite2D for water effect (hidden until activated)
+
+ANCIENT STONE RING    → 8 tiles around well
+  Pure visual tiles — T_ANCIENT_STONE
+  Place StaticBody2D collision walls at cardinal points
+  so player approaches from specific direction only
+
+COTTON SPECTER        → tile (24, 14) — north of well
+  CottonSpecter.tscn instance
+  Patrols a 6-tile radius around the well entrance
+  Drops: spray_can upgrade on death (if bolgarka level < 1)
+
+WATER LEVEL MARKER    → tile (38, 15)    16x48px vertical
+  StaticBody2D (no script needed, just interact text)
+  Add interact() method inline:
+    DialogueManager.start([
+      { "speaker": "", "text": "[Soviet water level measurement buoy. 1989.]" },
+      { "speaker": "", "text": "[Last entry: 0.0 meters depth. Signed: nobody.]" }
+    ])
+
+TIME GATE             → tile (24, 30)    32x32px
+  Area2D with time_gate.gd
+  visible = false on _ready()
+  Only shown after well activated (handled in time_gate.gd)
+
+SOIL PATCHES x7       → spread across Zones A and B
+  Area2D with soil_patch.gd
+  Spaced so player must explore to find all of them
+
+TREE SPOTS x5         → near soil patches
+  Area2D with tree_spot.gd
+  Requires: 1 tree_sapling + nearby treated soil
+
+SAPLING PICKUP x3     → tile (5,3) (20,8) (35,12)
+  Area2D with pickup_item.gd
+  item_name: "tree_sapling"  amount: 2
+
+DIARY PAGE 05         → tile (22, 17) inside well ring
+  Area2D with photo_pickup.gd  photo_id: "page_05"
+
+PHOTO BLUE            → tile (40, 15) behind buoy
+  Area2D with photo_pickup.gd  photo_id: "photo_aral_blue"
+
+SALT CRUST CRAWLER x2 → tile (10,15) and (30,20)
+  SaltCrustCrawler.tscn (build this enemy next push)
+
+PESTICIDE SHADE x1    → tile (36, 14)
+  PesticideShade.tscn (build this enemy next push)
+
+DUST DEVIL SPAWNER    → tile (47, 10) right edge
+  Node2D with trap_dustdevil_spawner.gd
+  spawn_interval_min: 25.0
+  map_width: 1536.0
+
+ADD TO TILEMAP GROUP  → TileMapLayer node
+  Add to group: "tilemap"
+  (so soil_patch.gd can find and update tiles)
+
+
+LEVEL SCRIPT (attach to Hometown Node2D)
+──────────────────────────────────────────
+Paste into seafloor_level.gd:
+
+  extends Node2D
+
+  func _ready() -> void:
+      add_to_group("ussr_level")  # reuse group for level finding
+      await ScreenFade.fade_in()
+      _show_arrival()
+
+  func _show_arrival() -> void:
+      DialogueManager.start([
+          { "speaker": "",       "text": "[The seabed. You are walking on the bottom of a dead sea.]" },
+          { "speaker": "Rustam", "text": "This was all underwater. Twenty meters deep." },
+          { "speaker": "Rustam", "text": "The fish. The boats. Everything that lived here." },
+          { "speaker": "Rustam", "text": "Now just... salt." },
+          { "speaker": "",       "text": "[Find the well. The locals said it is hidden here somewhere.]" }
+      ])
