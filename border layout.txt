@@ -1,0 +1,171 @@
+PUSH 33 — Border Level: The Kazakhstan Crossing
+Commit: "Push 33: Border level design, wall layout, mine field, guard patrol"
+Applies to: res://scenes/levels/Border.tscn
+═══════════════════════════════════════════════════════════════
+
+WHAT THIS LEVEL IS
+───────────────────
+Chapter 4 / Final chapter before the ending sequence.
+The border between Uzbekistan and Kazakhstan.
+A concrete wall running east-west across the map.
+The northern half is Kazakhstan. The southern half is Uzbekistan.
+Rustam approaches from the south.
+The Kazakh guard patrols the wall on the northern side.
+The TNT is in a supply depot on the Kazakh side.
+The wall comes down here. The water follows.
+
+TONE: Tense but not hostile. Both sides want the same thing.
+The wall is a bureaucratic accident, not an act of war.
+The level should feel like a conversation waiting to happen.
+
+MAP SIZE: 36 tiles wide x 28 tiles tall = 1152 x 896 pixels
+
+
+ZONE LAYOUT
+────────────
+
+ZONE A — Uzbek Side, Southern Approach (rows 0-11)
+  Sandy desert floor — same tile palette as Seafloor
+  Rustam enters from the north edge of Seafloor
+  A dirt track leads north toward the wall
+  Two Soviet-era warning signs along the track:
+    Sign 1 tile (10,4): "[BORDER ZONE — Authorised Personnel Only]"
+    Sign 2 tile (25,4): "[Keep to the marked path]"
+  MINE FIELD — rows 6-9, scattered across map width
+    3 mine instances (trap_mine.gd)
+    Placed at: tile (8,7), tile (19,8), tile (27,6)
+    Clear safe path exists between them at x=14-16
+    The guard warns about these in first dialogue
+  Small concrete observation post (decorative) tile (16,9)
+    Rustam can shelter behind it
+    Interact: "[Soviet concrete. Poured in 1965. Still standing.]"
+
+THE WALL (rows 12-13) — full width of map
+  Solid concrete wall tiles — full collision both rows
+  Only breakable at center: tiles (15,12) to (20,12)
+  These 6 tiles are NorthWall.tscn instances with north_wall.gd
+  The rest are plain StaticBody2D wall tiles — indestructible
+  A rusty metal gate at tile (18,12) — locked, decorative
+  Interact with gate: "[Welded shut. Has been for thirty years.]"
+
+ZONE B — Kazakh Side, Northern Approach (rows 14-24)
+  Slightly different tile palette — Kazakh side is marginally
+  better maintained (hint that the North Aral Sea is recovering)
+  Sparse dry grass tiles instead of pure sand
+  A small concrete building tile (28,16) — supply depot
+    Interior: shelves, equipment, the TNT pickup
+    TNT Pickup at tile (29,17):
+      Area2D with pickup_item.gd
+      item_name: "tnt"  amount: 1  auto_equip: false
+    Interact with shelf: "[Military surplus. Most of it expired.]"
+    "[The TNT however looks functional. Unfortunately.]"
+  Guard patrol path: along wall from tile (4,14) to (32,14)
+    Patrol loop: 28 tiles east-west, 12 second cycle
+  A Kazakh flag on a short pole tile (5,16) — decorative
+  Water level marker (same as Muynak) tile (32,20)
+    Interact: "[Kazakhstan side. The North Aral Sea water level.]"
+              "[Last entry: +4.2 meters. Rising since 2005.]"
+              "[It is working on their side. It can work here too.]"
+
+ZONE C — Post-Explosion (rows 0-28, triggered state)
+  After TNT detonates, the 6 NorthWall tiles are replaced
+  with rubble sprites (handled in north_wall.gd queue_free)
+  Rising water node activates at tile (18,13) — the gap
+  Water rises from that gap outward, filling the screen
+
+ZONE D — Border Guard Handshake Zone (tile 18,14)
+  After dialogue completes and TNT is accepted,
+  both Rustam and the guard walk to this center point
+  Handshake animation triggers here (cutscene-only frames)
+  This is a 2-second scripted moment — no player control
+
+
+PROPS TO PLACE IN BORDER.TSCN
+───────────────────────────────
+
+WARNING SIGN x2       → tiles (10,4) and (25,4)
+  StaticBody2D with prop_interact.gd
+  interaction_lines:
+    "[BORDER ZONE — Authorised Personnel Only]"
+    "[In Uzbek, Russian, and Kazakh. Three languages, one wall.]"
+
+OBSERVATION POST      → tile (14,8)   48x32px
+  StaticBody2D — provides cover from... nothing, really
+  But the player instinctively hides behind it
+  Interact: "[Soviet concrete. Poured in 1965. Still standing.]"
+            "[The irony of building something this permanent]"
+            "[in a country that no longer exists.]"
+
+MINES x3              → tiles (8,7) (19,8) (27,6)
+  StaticBody2D with trap_mine.gd
+  Add to scene AFTER placing warning signs
+  The guard mentions them in first dialogue:
+    "Watch the field between the signs. Three mines. Walk straight."
+
+CONCRETE WALL TILES   → rows 12-13, full width
+  StaticBody2D collision, wall tile sprite
+  All tiles EXCEPT (15,12) to (20,12)
+
+NORTH WALL x6         → tiles (15,12) to (20,12)
+  NorthWall.tscn instances with north_wall.gd
+  These are the breakable section
+
+METAL GATE            → tile (18,12) decorative on wall
+  Sprite2D only — no collision (wall behind it handles that)
+  Interact (RayCast from south): prop_interact.gd
+    "[Welded shut. Has been for thirty years.]"
+
+KAZAKH GUARD          → tile (18,14) starting position
+  npc_guard.gd
+  waypoints from Inspector: [(4,14), (32,14)]
+  wait_at_waypoint: 12.0
+
+SUPPLY DEPOT          → tile (26,15)   64x48px building
+  StaticBody2D (walls solid)
+  Interior accessible through south door at (28,15)
+
+TNT PICKUP            → tile (29,17) inside depot
+  Area2D with pickup_item.gd
+  item_name: "tnt"   amount: 1
+
+RISING WATER          → tile (18,13) — the gap
+  Node2D with rising_water.gd
+  Position at wall gap center
+  add_to_group("rising_water")
+  visible: false at start
+  Activated by north_wall.gd after explosion
+
+SCREEN FADE LAYER     → always present
+  Already handled by ScreenFade autoload
+
+ENDING CONTROLLER     → root Node2D
+  Attach ending_controller.gd
+  This reads GameManager.zorin_convinced for dialogue branch
+
+
+LEVEL ENTRY SEQUENCE
+──────────────────────
+When player enters from Seafloor:
+  ScreenFade.fade_in()
+  DialogueManager.start([
+    { "speaker": "",       "text": "[The border. You can see the wall from here.]" },
+    { "speaker": "Rustam", "text": "There it is." },
+    { "speaker": "Rustam", "text": "Careful. The guard mentioned mines." },
+    { "speaker": "",       "text": "[Walk the clear path. Watch for the safe corridor.]" }
+  ])
+
+
+ATMOSPHERE NOTES
+────────────────
+The border level is the only level that feels geopolitical.
+But it should not feel adversarial.
+The guard is not an obstacle. He is an ally who cannot
+officially help but will do everything unofficially.
+The mines are real danger — but clearly telegraphed.
+The wall itself is the antagonist. Not the people.
+
+After the explosion: pure joy. The map should feel
+completely different. Water rising. The wall gone.
+The two men standing on either side of where it was.
+This is the only moment in the game with no dialogue.
+Just the sound of water and the two of them watching it come.
