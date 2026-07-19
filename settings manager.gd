@@ -1,16 +1,3 @@
-# PUSH 44 — Settings, Accessibility + Localization Scaffold
-# Commit: "Push 44: Settings manager, text size, language scaffold, colorblind mode"
-# File: res://scripts/systems/settings_manager.gd
-# REGISTER AS AUTOLOAD: Name it "SettingsManager"
-# ═══════════════════════════════════════════════════════════════
-# WHAT THIS DOES:
-#   Persistent settings saved to user://settings.cfg
-#   Text size options (important for pixel art readability)
-#   Language scaffold (Uzbek, Russian, English to start)
-#   Colorblind mode (shifts enemy/trap color palettes)
-#   Volume settings (syncs with AudioServer buses)
-# ═══════════════════════════════════════════════════════════════
-
 extends Node
 
 const SETTINGS_PATH := "user://settings.cfg"
