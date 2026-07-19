@@ -1,17 +1,3 @@
-# PUSH 41 — Base Shelter Interior + Rest System
-# Commit: "Push 41: Shelter interior scene, sleep mechanic, inventory review, diary read"
-# File: res://scripts/levels/shelter_interior.gd
-# Attach to: root Node2D of ShelterInterior.tscn
-# ═══════════════════════════════════════════════════════════════
-# WHAT THIS IS:
-#   A separate small scene — Rustam's base camp interior.
-#   Entered by interacting with his tent/room door in Hometown.
-#   Size: 10x8 tiles (320x256px — exactly one screen, no camera scroll)
-#   Contains: bed, aquarium, shelf, diary, exit door
-#   This is the only safe place in the game. No enemies. No traps.
-#   Player rests here to restore health fully.
-# ═══════════════════════════════════════════════════════════════
-
 extends Node2D
 
 @onready var bed_area      : Area2D = $BedArea
