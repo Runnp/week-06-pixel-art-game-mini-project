@@ -1,9 +1,3 @@
-# PUSH 39 — Dynamic Weather System
-# Commit: "Push 39: Weather manager, wind intensity, sandstorm phases, NPC reactions"
-# File: res://scripts/systems/weather_manager.gd
-# REGISTER AS AUTOLOAD: Name it "WeatherManager"
-# ═══════════════════════════════════════════════════════════════
-
 extends Node
 
 signal weather_changed(type: String, intensity: float)
