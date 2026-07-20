@@ -1,19 +1,3 @@
-# PUSH 40 — Lore Codex System
-# Commit: "Push 40: Codex autoload, lore entries, codex UI panel"
-# File: res://scripts/systems/codex.gd
-# REGISTER AS AUTOLOAD: Name it "Codex"
-# ═══════════════════════════════════════════════════════════════
-# WHAT THIS DOES:
-#   An in-game encyclopedia Rustam builds as he discovers things.
-#   3 categories: History, Environment, People
-#   Entries unlock automatically when player:
-#     - Talks to an NPC for the first time
-#     - Picks up a diary page or photo
-#     - Visits a new area
-#     - Interacts with specific world props
-#   Accessible from pause menu → "Codex" button
-# ═══════════════════════════════════════════════════════════════
-
 extends Node
 
 signal entry_unlocked(entry_id: String)
