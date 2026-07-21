@@ -1,13 +1,3 @@
-# PUSH 32 — World Atmosphere: Particles, Ambient Details, Audio Design
-# Commit: "Push 32: Ambient particles, wind system, audio design, world details"
-#
-# ════════════════════════════════════════════════════════════════
-# FILE 1: res://scripts/world/ambient_wind.gd
-# LOCATION: res://scripts/world/ambient_wind.gd
-# Attach to: Node2D "AmbientWind" in every outdoor level
-# Creates background dust particles that drift across the screen
-# ════════════════════════════════════════════════════════════════
-
 extends Node2D
 
 # Spawns tiny dust motes that drift left to right across the level.
