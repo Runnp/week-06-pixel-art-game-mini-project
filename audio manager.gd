@@ -1,9 +1,3 @@
-# PUSH 46 — Audio Manager
-# Commit: "Push 46: AudioManager autoload, music transitions, SFX pool"
-# File: res://scripts/systems/audio_manager.gd
-# REGISTER AS AUTOLOAD: Name it "AudioManager"
-# ═══════════════════════════════════════════════════════════════
-
 extends Node
 
 # ── Music players (crossfade between two) ─────────
