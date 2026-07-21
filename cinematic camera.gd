@@ -1,17 +1,3 @@
-# PUSH 34 — Camera System: Cinematic Moments + Screen Effects
-# Commit: "Push 34: Cinematic camera, letterbox, zoom, pan sequences"
-# File: res://scripts/systems/cinematic_camera.gd
-# REGISTER AS AUTOLOAD: Name it "CinematicCamera"
-#   Project > Project Settings > Autoload > +
-#   Name: CinematicCamera
-# ═══════════════════════════════════════════════════════════════
-# WHAT THIS DOES:
-#   Controls the Camera2D on the player for dramatic moments.
-#   Letterboxing (black bars), slow zoom in/out, camera pan
-#   to a point of interest, then return to player.
-#   Used for: well activation, TNT explosion, ending swim.
-# ═══════════════════════════════════════════════════════════════
-
 extends Node
 
 var _camera      : Camera2D = null
@@ -22,7 +8,6 @@ var _default_zoom := Vector2(1.0, 1.0)
 
 
 func _ready() -> void:
-	# Build letterbox overlay
 	_canvas       = CanvasLayer.new()
 	_canvas.layer = 8   # above world, below HUD
 	add_child(_canvas)
@@ -30,13 +15,13 @@ func _ready() -> void:
 	_letterbox_t         = ColorRect.new()
 	_letterbox_t.color   = Color.BLACK
 	_letterbox_t.size    = Vector2(320, 20)
-	_letterbox_t.position = Vector2(0, -20)   # hidden above screen
+	_letterbox_t.position = Vector2(0, -20)
 	_canvas.add_child(_letterbox_t)
 
 	_letterbox_b         = ColorRect.new()
 	_letterbox_b.color   = Color.BLACK
 	_letterbox_b.size    = Vector2(320, 20)
-	_letterbox_b.position = Vector2(0, 180)   # hidden below screen
+	_letterbox_b.position = Vector2(0, 180)   
 	_canvas.add_child(_letterbox_b)
 
 
@@ -124,44 +109,3 @@ func shake(strength: float = 4.0, duration: float = 0.4) -> void:
 		await get_tree().process_frame
 		elapsed += get_tree().get_process_delta_time()
 	_camera.offset = origin
-
-
-# ═══════════════════════════════════════════════════════════════
-# CINEMATIC SEQUENCES — how to use CinematicCamera in scripts
-# ═══════════════════════════════════════════════════════════════
-#
-# WELL ACTIVATION (in magic_well.gd _play_sacrifice_effect):
-#   CinematicCamera.init_camera()
-#   await CinematicCamera.letterbox_in(0.8)
-#   await CinematicCamera.zoom_in(1.8, 1.5)
-#   ScreenFade.flash(Color(0.6, 0.0, 0.0), 0.6)   # blood red
-#   await get_tree().create_timer(1.0).timeout
-#   ScreenFade.flash(Color.WHITE, 0.4)              # rebirth white
-#   await CinematicCamera.zoom_out(1.0)
-#   await CinematicCamera.letterbox_out(0.5)
-#
-# TNT EXPLOSION (in north_wall.gd _detonate):
-#   await CinematicCamera.letterbox_in(0.3)
-#   await CinematicCamera.shake(6.0, 0.5)
-#   ScreenFade.flash(Color.WHITE, 0.25)
-#   await CinematicCamera.pan_to(wall_center_pos, 3.0, 1.0)
-#   await CinematicCamera.letterbox_out(0.8)
-#
-# ENDING SWIM (in rising_water.gd _trigger_ending):
-#   await CinematicCamera.letterbox_in(1.0)
-#   await CinematicCamera.zoom_in(1.5, 3.0)
-#   # Player swims toward sunset — camera follows slowly
-#   await get_tree().create_timer(8.0).timeout
-#   await ScreenFade.fade_out(3.0)
-#
-# MALIK JEEP CUTSCENE (in npc_malik.gd _trigger_travel_cutscene):
-#   await CinematicCamera.letterbox_in(0.5)
-#   await CinematicCamera.pan_to(jeep_position, 2.0, 0.8)
-#   await CinematicCamera.letterbox_out(0.4)
-#
-# GUARD HANDSHAKE (in border level after TNT):
-#   await CinematicCamera.letterbox_in(0.4)
-#   await CinematicCamera.zoom_in(1.6, 1.0)
-#   await get_tree().create_timer(2.5).timeout
-#   await CinematicCamera.zoom_out(0.8)
-#   await CinematicCamera.letterbox_out(0.4)
