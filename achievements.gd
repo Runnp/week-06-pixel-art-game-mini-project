@@ -1,15 +1,3 @@
-# PUSH 48 — Achievement System
-# Commit: "Push 48: Achievements autoload, milestone tracking, toast notifications"
-# File: res://scripts/systems/achievements.gd
-# REGISTER AS AUTOLOAD: Name it "Achievements"
-# ═══════════════════════════════════════════════════════════════
-# WHAT THIS DOES:
-#   Tracks gameplay milestones and displays a small toast
-#   notification in the corner when one is earned.
-#   Saved to disk — persist across sessions.
-#   Completely optional — game works without ever checking these.
-#   But they reward thorough exploration and restoration.
-# ═══════════════════════════════════════════════════════════════
 
 extends Node
 
