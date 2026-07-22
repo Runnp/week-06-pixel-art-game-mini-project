@@ -1,8 +1,3 @@
-# PUSH 05 — Player in Hometown + Level Door Trigger
-# File: res://scripts/systems/level_door.gd
-# Commit: "Push 05: Player placed in Hometown, camera working, door trigger"
-# Attach to: Area2D node named "LevelDoor" placed at room exit
-
 extends Area2D
 
 @export var target_scene : String = "res://scenes/levels/Muynak.tscn"
@@ -31,13 +26,3 @@ func _on_body_entered(body: Node2D) -> void:
 func _on_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		_player_inside = false
-
-
-# ── SCENE STRUCTURE FOR LevelDoor ────────────────────────
-# Area2D  (name: LevelDoor)
-# ├── CollisionShape2D
-# │     Shape: RectangleShape2D  size: 32x32
-# └── (attach this script)
-#
-# Place one LevelDoor at the edge of Hometown.tscn
-# Set target_scene in Inspector to the next chapter scene path
