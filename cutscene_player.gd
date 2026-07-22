@@ -1,16 +1,3 @@
-# PUSH 42 — Cutscene System: Scripted Story Moments
-# Commit: "Push 42: Cutscene player, scripted sequences, jeep travel, ending swim"
-# File: res://scripts/systems/cutscene_player.gd
-# REGISTER AS AUTOLOAD: Name it "CutscenePlayer"
-# ═══════════════════════════════════════════════════════════════
-# WHAT THIS DOES:
-#   Plays scripted cutscene sequences defined as arrays of steps.
-#   Each step is a Dictionary with a "type" and parameters.
-#   Steps execute in order, awaiting completion before next.
-#   Handles: dialogue, camera moves, sprite moves, fades, waits.
-#   All cutscenes freeze player input automatically.
-# ═══════════════════════════════════════════════════════════════
-
 extends Node
 
 var _running : bool = false
